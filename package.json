@@ -1,0 +1,26 @@
+{
+  "name": "tjl-http-api-assignment",
+  "version": "1.0.0",
+  "description": "Http Api Assignment",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests Complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjl7357/http-api-assignment.git"
+  },
+  "author": "TJ Larson",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/tjl7357/http-api-assignment/issues"
+  },
+  "homepage": "https://github.com/tjl7357/http-api-assignment#readme",
+  "devDependencies": {
+    "eslint": "^8.33.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5"
+  }
+}

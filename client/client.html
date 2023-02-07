@@ -5,7 +5,85 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    // Handles the response
+    const handleResponse = async (response) => {
+      const responseText = await response.text();
+      console.log(responseText);
 
+      // Gets relavent information
+      const contentType = response.headers.get('Content-Type');
+      const content = document.getElementById('content');
+
+      // Updates a header based on the status
+      switch(response.status){
+        case(200):
+          content.innerHTML = '<h1><b>Success</b></h1>';
+          break;
+
+        case(400): 
+          content.innerHTML = '<h1><b>Bad Request</b></h1>';
+          break;
+
+        case(401):
+          content.innerHTML = '<h1><b>Unauthorized</b></h1>';
+          break;
+
+        case(403):
+          content.innerHTML = '<h1><b>Forbidden</b></h1>';
+          break;
+
+        case(404):
+          content.innerHTML = '<h1><b>Resource Not Found</b></h1>';
+          break;
+
+        case(500):
+          content.innerHTML = '<h1><b>Internal Server Error</b></h1>';
+          break;
+
+        case(501):
+          content.innerHTML = '<h1><b>Not Implemented</b></h1>';
+          break;
+      }
+
+      // Parses information based on content type
+      if (contentType === 'application/json'){
+        const parsedResponse = JSON.parse(responseText);
+        content.innerHTML += `<p>${parsedResponse.message}</p>`;
+      } else if (contentType === 'text/xml'){
+        const parsedResponse = new window.DOMParser().parseFromString(responseText, 'text/xml');
+        content.innerHTML += `<p>${parsedResponse.querySelector('message').textContent}</p>`;
+      } else {
+        content.textContent = 'Invalid Content Type';
+        content.textContent = `This server does not support ${contentType}`;
+      }
+    };
+
+    // Sends a fetch request
+    const sendFetch = async (url, acceptedType) => {
+      try{
+        const options = {
+          method: 'GET',
+          headers: {'Accept': acceptedType}
+        }
+
+        const response = await fetch(url, options);
+        handleResponse(response);
+      } catch(err){
+        console.log(err);
+      }
+    };
+
+    // Init Function
+    const init = () => {
+      const pageSelector = document.querySelector('#page');
+      const typeSelector = document.querySelector('#type');
+      const sendButton = document.querySelector('#send');
+
+      sendButton.addEventListener('click', () => sendFetch(pageSelector.value, typeSelector.value));
+    };
+
+    // Onload Function
+    window.onload = init;
   </script>
 </head>
 <body>
