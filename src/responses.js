@@ -34,26 +34,36 @@ const getSuccess = (request, response, acceptedTypes) => {
 
 // Get Bad Request
 const getBadRequest = (request, response, acceptedTypes, params) => {
-  if (!params.valid || params.valid !== 'true'){
+  const responseData = {
+    message: 'This request has the required parameters',
+  };
 
-    const responseData = {
-      message: 'Missing valid query parameter set to true',
-      id: 'badRequest',
-    };
+  if (!params.valid || params.valid !== 'true') {
+    responseData.message = 'Missing valid query parameter set to true';
+    responseData.id = 'badRequest';
 
     if (acceptedTypes[0] === 'text/xml') {
       let xmlString = '<response>';
       xmlString += `<message>${responseData.message}</message>`;
-      xmlString += `<id>${responseData.id}</id>`
+      xmlString += `<id>${responseData.id}</id>`;
       xmlString += '</response>';
       return respond(request, response, xmlString, acceptedTypes[0], 400);
     }
 
     return respond(request, response, JSON.stringify(responseData), 'application/json', 400);
+  } else {
+    if (acceptedTypes[0] === 'text/xml'){
+      let xmlString = '<response>';
+      xmlString += `<message>${responseData.message}</message>`;
+      xmlString += '</response>';
+      return respond(request, response, xmlString, acceptedTypes[0], 200);
+    }
+    
+    return respond(request, response, JSON.stringify(responseData), 'application/json', 200);
   }
+
   
-  return getSuccess(request, response, acceptedTypes);
-}
+};
 
 // Exports
 module.exports = {
