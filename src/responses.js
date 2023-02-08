@@ -34,14 +34,17 @@ const getSuccess = (request, response, acceptedTypes) => {
 
 // Get Bad Request
 const getBadRequest = (request, response, acceptedTypes, params) => {
+  // Initial Data Object
   const responseData = {
     message: 'This request has the required parameters',
   };
 
+  // If the valid parameter is not present or not equal to true
   if (!params.valid || params.valid !== 'true') {
     responseData.message = 'Missing valid query parameter set to true';
     responseData.id = 'badRequest';
 
+    // If xml request, return xml response
     if (acceptedTypes[0] === 'text/xml') {
       let xmlString = '<response>';
       xmlString += `<message>${responseData.message}</message>`;
@@ -50,8 +53,10 @@ const getBadRequest = (request, response, acceptedTypes, params) => {
       return respond(request, response, xmlString, acceptedTypes[0], 400);
     }
 
+    // Return JSON response
     return respond(request, response, JSON.stringify(responseData), 'application/json', 400);
   } else {
+    // If xml request, return xml response
     if (acceptedTypes[0] === 'text/xml'){
       let xmlString = '<response>';
       xmlString += `<message>${responseData.message}</message>`;
@@ -59,6 +64,7 @@ const getBadRequest = (request, response, acceptedTypes, params) => {
       return respond(request, response, xmlString, acceptedTypes[0], 200);
     }
     
+    // Return JSON response
     return respond(request, response, JSON.stringify(responseData), 'application/json', 200);
   }
 
