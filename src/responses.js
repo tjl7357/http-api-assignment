@@ -3,6 +3,7 @@ const fs = require('fs');
 
 // Get necessary files
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
+const style = fs.readFileSync(`${__dirname}/../client/style.css`);
 
 // Responses Function
 const respond = (request, response, content, type, status) => {
@@ -14,6 +15,11 @@ const respond = (request, response, content, type, status) => {
 // Get Index
 const getIndex = (request, response) => {
   respond(request, response, index, 'text/html', 200);
+};
+
+// Get CSS Stylesheet
+const getStyle = (request, response) => {
+  respond(request, response, style, 'text/css', 200);
 };
 
 // Get Success
@@ -74,6 +80,7 @@ const getBadRequest = (request, response, acceptedTypes, params) => {
 // Exports
 module.exports = {
   getIndex,
+  getStyle,
   getSuccess,
   getBadRequest,
 };
