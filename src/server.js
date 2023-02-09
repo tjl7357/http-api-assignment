@@ -13,7 +13,11 @@ const urlStruct = {
   '/style.css': responseHandler.getStyle,
   '/success': responseHandler.getSuccess,
   '/badRequest': responseHandler.getBadRequest,
-  notFound: responseHandler.getIndex,
+  '/unauthorized': responseHandler.getUnauthorized,
+  '/forbidden': responseHandler.getForbidden,
+  '/internal': responseHandler.getInternal,
+  '/notImplemented': responseHandler.getNotImplemented,
+  notFound: responseHandler.getNotFound,
 };
 
 // Response Function
